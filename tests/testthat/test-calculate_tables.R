@@ -52,7 +52,8 @@ test_that("Sub category table works", {
                                       code_column = "BestCode",
                                       category_table = categories,
                                       join_lookup = c("BestCode" = "Number"),
-                                      count_column = "Category")
+                                      count_column = "Category",
+                                      click_column = "Communication")
 
   testthat::expect_true(sum(is.na(calculated_table[["Category"]])) == 0) # no missing elements
   

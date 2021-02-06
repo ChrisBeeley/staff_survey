@@ -3,6 +3,7 @@
 #' @param request Internal parameter for `{shiny}`. 
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import shinydashboard
 #' @noRd
 app_ui <- function(request) {
   tagList(
@@ -10,7 +11,9 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic 
     fluidPage(
-      h1("staffSurveyNew")
+      h1("staffSurveyNew"),
+      mod_click_tables_ui("click_tables_ui_1"),
+      mod_click_tables_ui("click_tables_ui_2")
     )
   )
 }
