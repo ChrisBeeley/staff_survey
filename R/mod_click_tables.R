@@ -29,19 +29,39 @@ mod_click_tables_ui <- function(id){
 #' click_tables Server Functions
 #'
 #' @noRd 
-mod_click_tables_server <- function(id, data, count_column, click = NULL){
+mod_click_tables_server <- function(id, data, count_column, click){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
     output$themes <- DT::renderDT({
       
-      calculated_table <- calculate_table(table_data = data()$staff_data,
-                                          code_column = "BestCode",
-                                          category_table = data()$categories,
-                                          join_lookup = c("BestCode" = "Number"),
-                                          count_column = count_column)
-      
-      
+      if(count_column == "Category"){
+        
+        first_table <- calculate_table(table_data = data()$staff_data,
+                                       code_column = "BestCode",
+                                       category_table = data()$categories,
+                                       join_lookup = c("BestCode" = "Number"),
+                                       count_column = "Super", 
+                                       click_column = NULL)
+        
+        row_selected <- first_table$Category[click()]
+        
+        calculated_table <- calculate_table(table_data = data()$staff_data,
+                                            code_column = "BestCode",
+                                            category_table = data()$categories,
+                                            join_lookup = c("BestCode" = "Number"),
+                                            count_column = count_column, 
+                                            click_column = row_selected)
+      } else {
+        
+        calculated_table <- calculate_table(table_data = data()$staff_data,
+                                            code_column = "BestCode",
+                                            category_table = data()$categories,
+                                            join_lookup = c("BestCode" = "Number"),
+                                            count_column = count_column, 
+                                            click_column = click)
+      }
+
       DT::datatable(calculated_table,
                     selection = 'single', rownames = FALSE, extensions = 'Buttons', 
                     options = list(pageLength = 5, lengthMenu = c(5, 10),
@@ -54,9 +74,3 @@ mod_click_tables_server <- function(id, data, count_column, click = NULL){
     )
   })
 }
-
-## To be copied in the UI
-# 
-
-## To be copied in the server
-# 
