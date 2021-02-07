@@ -37,7 +37,9 @@ app_ui <- function(request) {
           tabItem(tabName = "criticality",
                   fluidRow(
                     column(6, 
-                           mod_click_crit_ui("click_crit_ui_1")))
+                           mod_click_crit_ui("click_crit_ui_1")),
+                    column(6,
+                           mod_show_text_ui("show_text_ui_2")))
           )
         )
       )

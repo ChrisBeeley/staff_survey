@@ -17,6 +17,9 @@ load_staff_data <- function(filepath){
     dplyr::mutate(ImpCode = gsub(" ", "", ImpCode))
   
   staff_data <- staff_data %>% 
+    dplyr::mutate(ImpCrit = -ImpCrit)
+  
+  staff_data <- staff_data %>% 
     dplyr::mutate(BestCode = stringr::str_split(staff_data$BestCode, ",")) %>% 
     dplyr::mutate(ImpCode = stringr::str_split(staff_data$ImpCode, ","))
   

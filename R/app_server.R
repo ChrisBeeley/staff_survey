@@ -47,4 +47,9 @@ app_server <- function( input, output, session ) {
                        filter_data = filter_data,
                        super = clicked,
                        sub_category = show_text)
+  
+  mod_show_text_server("show_text_ui_2", data = load_data,
+                       filter_data = filter_data,
+                       super = click_crit,
+                       sub_category = NULL)
 }
