@@ -9,13 +9,25 @@ load_staff_data <- function(filepath){
   staff_data <- staff_data %>% 
     dplyr::na_if(99) %>% 
     dplyr::na_if("99") %>% 
-    tidyr::unite(BestCode, c(Best1, Best2), sep = ",", na.rm = TRUE)
+    tidyr::unite(BestCode, c(Best1, Best2), sep = ",", na.rm = TRUE) %>% 
+    tidyr::unite(ImpCode, c(Imp1, Imp2), sep = ",", na.rm = TRUE)
   
   staff_data <- staff_data %>% 
-    dplyr::mutate(BestCode = gsub(" ", "", BestCode))
+    dplyr::mutate(BestCode = gsub(" ", "", BestCode)) %>% 
+    dplyr::mutate(ImpCode = gsub(" ", "", ImpCode))
   
   staff_data <- staff_data %>% 
-    dplyr::mutate(BestCode = stringr::str_split(staff_data$BestCode, ","))
+    dplyr::mutate(BestCode = stringr::str_split(staff_data$BestCode, ",")) %>% 
+    dplyr::mutate(ImpCode = stringr::str_split(staff_data$ImpCode, ","))
+  
+  staff_data <- dplyr::bind_rows(staff_data %>% 
+                     dplyr::select(Directorate, comment = Best, 
+                                   Code = BestCode, Crit = BestCrit) %>% 
+                     dplyr::mutate(type = "Best"),
+                   staff_data %>% 
+                     dplyr::select(Directorate, comment = Improve, 
+                                   Code = ImpCode, Crit = ImpCrit) %>% 
+                     dplyr::mutate(type = "Improve"))
   
   return(staff_data)
 }

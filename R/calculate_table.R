@@ -1,4 +1,12 @@
-
+#' calculate percentage tables for comment themes
+#' 
+#' @param table_data A dataframe
+#' @param code_column String with name of column to summarise.
+#' @param category_table The table to join with.
+#' @param join_lookup A named vector giving the names to join on
+#' @param count_column String with the name of the column to count in the joined table
+#' @param click_column A string with the name of the category that has been clicked, if any
+#' @return a dataframe with category name, n, and %
 calculate_table <- function(table_data, code_column, category_table, 
                             join_lookup, count_column, click_column = NULL) {
   

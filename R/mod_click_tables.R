@@ -11,25 +11,14 @@ mod_click_tables_ui <- function(id){
   ns <- NS(id)
   tagList(
     
-    fluidRow(
-      shinydashboard::box(DT::DTOutput(ns("themes")),
-          DT::DTOutput(ns("subThemes")))
-      
-      # box(
-      #   title = "Comments",
-      #   downloadButton(ns("downloadComments"), "Download all comments"),
-      #   downloadButton(ns("downloadCategoryComments"), 
-      #                  "Download all comments from category"),
-      #   htmlOutput(ns("showComments"))
-      # )
-    )
+    DT::DTOutput(ns("themes"))
   )
 }
 
 #' click_tables Server Functions
 #'
 #' @noRd 
-mod_click_tables_server <- function(id, data, count_column, click){
+mod_click_tables_server <- function(id, data, count_column, click, filter_data){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
@@ -37,31 +26,33 @@ mod_click_tables_server <- function(id, data, count_column, click){
       
       if(count_column == "Category"){
         
-        first_table <- calculate_table(table_data = data()$staff_data,
-                                       code_column = "BestCode",
+        req(click())
+        
+        first_table <- calculate_table(table_data = filter_data(),
+                                       code_column = "Code",
                                        category_table = data()$categories,
-                                       join_lookup = c("BestCode" = "Number"),
+                                       join_lookup = c("Code" = "Number"),
                                        count_column = "Super", 
                                        click_column = NULL)
         
         row_selected <- first_table$Category[click()]
         
-        calculated_table <- calculate_table(table_data = data()$staff_data,
-                                            code_column = "BestCode",
+        calculated_table <- calculate_table(table_data = filter_data(),
+                                            code_column = "Code",
                                             category_table = data()$categories,
-                                            join_lookup = c("BestCode" = "Number"),
+                                            join_lookup = c("Code" = "Number"),
                                             count_column = count_column, 
                                             click_column = row_selected)
       } else {
         
-        calculated_table <- calculate_table(table_data = data()$staff_data,
-                                            code_column = "BestCode",
+        calculated_table <- calculate_table(table_data = filter_data(),
+                                            code_column = "Code",
                                             category_table = data()$categories,
-                                            join_lookup = c("BestCode" = "Number"),
+                                            join_lookup = c("Code" = "Number"),
                                             count_column = count_column, 
                                             click_column = click)
       }
-
+      
       DT::datatable(calculated_table,
                     selection = 'single', rownames = FALSE, extensions = 'Buttons', 
                     options = list(pageLength = 5, lengthMenu = c(5, 10),
