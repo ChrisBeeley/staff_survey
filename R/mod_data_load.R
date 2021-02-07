@@ -26,10 +26,19 @@ mod_data_load_server <- function(id){
     
     categories <- load_categories()
     
+    criticality <- criticality_lookup <- data.frame(
+      Number = -3 : 3, 
+      Criticality = c("Highly critical", "Fairly critical", 
+                      "Somewhat critical", "Not critical",
+                      "Slightly positive", "Somewhat positive",
+                      "Very positive")
+    )
+    
     reactive({
       
       list(staff_data = staff_data,
-           categories = categories)
+           categories = categories,
+           criticality = criticality)
     })
     
   })

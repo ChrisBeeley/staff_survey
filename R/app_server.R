@@ -40,8 +40,11 @@ app_server <- function( input, output, session ) {
                                        data = load_data, count_column = "Category", 
                                        click = clicked, filter_data = filter_data)
   
-  # mod_show_text_server("show_text_ui_1", data = load_data, 
-  #                      count_column = "Category", 
-  #                      super = clicked,
-  #                      sub_category = show_text)
+  click_crit <- mod_click_crit_server("click_crit_ui_1",
+                                      data = load_data, filter_data = filter_data)
+  
+  mod_show_text_server("show_text_ui_1", data = load_data,
+                       filter_data = filter_data,
+                       super = clicked,
+                       sub_category = show_text)
 }

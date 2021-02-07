@@ -6,9 +6,9 @@ test_that("Super category table works", {
   source(root$find_file("tests/test_helper.R"))
   
   calculated_table <- calculate_table(table_data = staff_data,
-                                      code_column = "BestCode",
+                                      code_column = "Code",
                                       category_table = categories,
-                                      join_lookup = c("BestCode" = "Number"),
+                                      join_lookup = c("Code" = "Number"),
                                       count_column = "Super")
 
   testthat::expect_true(sum(is.na(calculated_table[["Super"]])) == 0) # no missing elements
@@ -23,9 +23,9 @@ testthat::test_that("Sub category table works", {
   source(root$find_file("tests/test_helper.R"))
   
   calculated_table <- calculate_table(table_data = staff_data,
-                                      code_column = "BestCode",
+                                      code_column = "Code",
                                       category_table = categories,
-                                      join_lookup = c("BestCode" = "Number"),
+                                      join_lookup = c("Code" = "Number"),
                                       count_column = "Category",
                                       click_column = "Management ")
 
@@ -49,9 +49,9 @@ test_that("Criticality table works", {
                                                    "Very positive"))
 
   calculated_table <- calculate_table(table_data = staff_data,
-                                      code_column = "BestCrit",
+                                      code_column = "Crit",
                                       category_table = criticality_lookup,
-                                      join_lookup = c("BestCrit" = "Number"),
+                                      join_lookup = c("Crit" = "Number"),
                                       count_column = "Criticality")
   
   testthat::expect_true(sum(is.na(calculated_table[["Criticality"]])) == 0) # no missing elements

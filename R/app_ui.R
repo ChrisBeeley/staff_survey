@@ -18,27 +18,29 @@ app_ui <- function(request) {
           menuItem("Criticality", tabName = "criticality", icon = icon("th"))
         ),
         uiOutput("directorate"),
-        selectInput("critTheme", "Criticality or theme", 
-                    choices = c("Crit" = "Criticality", "Code" = "Theme")),
         selectInput("question", "Thing to improve or best thing", 
                     choices = c("Thing to improve" = "Improve", "Best thing" = "Best"))
       ),
       dashboardBody(
         
         tabItems(
-          # First tab content
+          
           tabItem(tabName = "themes",
                   fluidRow(
                     column(6, 
                            mod_click_tables_ui("click_tables_ui_1"),
                            mod_click_tables_ui("click_tables_ui_2")),
+                    column(6,
+                           mod_show_text_ui("show_text_ui_1"))
                   )
           ),
-          
-          tabItem(tabName = "criticality")
+          tabItem(tabName = "criticality",
+                  fluidRow(
+                    column(6, 
+                           mod_click_crit_ui("click_crit_ui_1")))
+          )
         )
       )
-      # mod_show_text_ui("show_text_ui_1")
     )
   )
 }

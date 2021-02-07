@@ -27,6 +27,8 @@ golem::use_recommended_deps()
 ## Create a module infrastructure in R/
 golem::add_module( name = "data_load" ) # Name of the module
 golem::add_module( name = "click_tables" ) # Name of the module
+golem::add_module( name = "click_crit" ) # Name of the module
+golem::add_module( name = "show_text" ) # Name of the module
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
@@ -47,6 +49,7 @@ usethis::use_data_raw( name = "my_dataset", open = FALSE )
 ## Add one line by test you want to create
 usethis::use_test( "calculate_tables" )
 usethis::use_test( "load_data" )
+usethis::use_test( "show_text" )
 
 # Documentation
 
