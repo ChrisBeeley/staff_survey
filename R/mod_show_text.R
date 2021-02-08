@@ -26,6 +26,8 @@ mod_show_text_server <- function(id, data, filter_data, super, sub_category){
       
       if(is.null(sub_category)){
         
+        req(super())
+        
         calc_table <- calculate_table(table_data = filter_data(),
                                       code_column = "Crit",
                                       category_table = data()$criticality,
@@ -43,6 +45,8 @@ mod_show_text_server <- function(id, data, filter_data, super, sub_category){
           )
         )
       }
+      
+      req(sub_category())
       
       first_table <- calculate_table(table_data = filter_data(),
                                      code_column = "Code",
