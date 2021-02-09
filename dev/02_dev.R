@@ -19,6 +19,9 @@ usethis::use_package( "dplyr" )
 usethis::use_package( "DT" )
 usethis::use_package( "shinydashboard" )
 usethis::use_package( "readr" )
+usethis::use_package( "tidyr" )
+usethis::use_package( "pins" )
+usethis::use_package( "officer" )
 
 usethis::use_pipe()
 

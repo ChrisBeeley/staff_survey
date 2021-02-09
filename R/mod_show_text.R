@@ -10,7 +10,8 @@
 mod_show_text_ui <- function(id){
   ns <- NS(id)
   tagList(
-    
+    downloadButton(ns("downloadAll"), "Download all comments in area"),
+    # downloadButton(ns("downloadSelection"), "Download visible comments only"),
     htmlOutput(ns("text"))
   )
 }
@@ -73,5 +74,65 @@ mod_show_text_server <- function(id, data, filter_data, super, sub_category){
                 join_lookup = c("Code" = "Number")
       )
     })
+    
+    output$downloadAll <- downloadHandler(
+      filename = "all_comments.docx",
+      content = function(file){
+        
+        my_doc <- officer::read_docx("template.docx")
+        
+        if(is.null(sub_category)){ # this is criticality
+          
+          calc_table <- filter_data() %>%  
+            tidyr::unnest(Crit) %>% 
+            dplyr::mutate(dplyr::across(all_of("Crit"), as.numeric)) %>% 
+            dplyr::left_join(data()$criticality, c("Crit" = "Number"))
+          
+          purrr::walk(na.omit(unique(calc_table$Criticality)), function(x) {
+            
+            commentsFrame <- calc_table %>% 
+              dplyr::filter(Criticality == x)
+            
+            my_doc %>% 
+              officer::body_add_par(value = x, style = "heading 1")
+            
+            purrr::walk(commentsFrame$comment, 
+                        ~ officer::body_add_par(my_doc, value = ., style = "Normal"))
+          })
+          
+          print(my_doc, target = "all_comments.docx")
+          
+          # copy docx to 'file'
+          file.copy("all_comments.docx", file, overwrite = TRUE)
+          
+        } else { # this is themes
+          
+          calc_table <- filter_data() %>%  
+            tidyr::unnest(Code) %>% 
+            dplyr::mutate(dplyr::across(all_of("Code"), as.numeric)) %>% 
+            dplyr::left_join(data()$categories, c("Code" = "Number"))
+          
+          calc_table <- calc_table %>% 
+            dplyr::distinct(comment, .keep_all = TRUE)
+          
+          purrr::walk(na.omit(unique(calc_table$Super)), function(x) {
+            
+            commentsFrame <- calc_table %>% 
+              dplyr::filter(Super == x)
+            
+            my_doc %>% 
+              officer::body_add_par(value = x, style = "heading 1")
+            
+            purrr::walk(commentsFrame$comment, 
+                        ~ officer::body_add_par(my_doc, value = ., style = "Normal"))
+          })
+          
+          print(my_doc, target = "all_comments.docx")
+          
+          # copy docx to 'file'
+          file.copy("all_comments.docx", file, overwrite = TRUE)
+        }
+      }
+    )
   })
 }
