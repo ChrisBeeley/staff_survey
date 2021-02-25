@@ -26,11 +26,11 @@ mod_data_load_server <- function(id){
     
     if(where_am_i == "github"){
       
-      staff_data <- readRDS("data_load/staff_data.rds")
+      staff_data <- readRDS("inst/extdata/staff_data.rds")
       
-      categories <- readRDS("data_load/categories.rds")
+      categories <- readRDS("inst/extdata/categories.rds")
       
-      criticality <- readRDS("data_load/criticality.rds")
+      criticality <- readRDS("inst/extdata/criticality.rds")
     } else {
       
       staff_data <- load_staff_data("staff_data.csv")
