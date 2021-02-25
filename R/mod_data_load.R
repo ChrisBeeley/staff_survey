@@ -22,17 +22,29 @@ mod_data_load_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-    staff_data <- load_staff_data("staff_data.csv")
+    where_am_i <- get_golem_config("where")
     
-    categories <- load_categories()
-    
-    criticality <- criticality_lookup <- data.frame(
-      Number = -3 : 3, 
-      Criticality = c("Highly critical", "Fairly critical", 
-                      "Somewhat critical", "Not critical",
-                      "Slightly positive", "Somewhat positive",
-                      "Very positive")
-    )
+    if(where_am_i == "github"){
+      
+      staff_data <- readRDS("data_load/staff_data.rds")
+      
+      categories <- readRDS("data_load/categories.rds")
+      
+      criticality <- readRDS("data_load/criticality.rds")
+    } else {
+      
+      staff_data <- load_staff_data("staff_data.csv")
+      
+      categories <- load_categories()
+      
+      criticality <- data.frame(
+        Number = -3 : 3, 
+        Criticality = c("Highly critical", "Fairly critical", 
+                        "Somewhat critical", "Not critical",
+                        "Slightly positive", "Somewhat positive",
+                        "Very positive")
+      )
+    }
     
     reactive({
       
@@ -46,6 +58,3 @@ mod_data_load_server <- function(id){
 
 ## To be copied in the UI
 # mod_data_load_ui("data_load_ui_1")
-
-## To be copied in the server
-# 

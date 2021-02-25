@@ -27,6 +27,10 @@ usethis::use_pipe()
 
 golem::use_recommended_deps()
 
+# amend config
+
+golem::amend_golem_config(key = "where", "github")
+
 ## Add modules ----
 ## Create a module infrastructure in R/
 golem::add_module( name = "data_load" ) # Name of the module

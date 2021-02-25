@@ -32,7 +32,7 @@ mod_click_crit_server <- function(id, data, filter_data){
       
       DT::datatable(calculated_table,
                     selection = 'single', rownames = FALSE, extensions = 'Buttons', 
-                    options = list(pageLength = 5, lengthMenu = c(5, 10),
+                    options = list(pageLength = 10, lengthMenu = c(5, 10),
                                    dom = 'Blfrtip',
                                    buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
     })
