@@ -29,6 +29,7 @@ app_ui <- function(request) {
                   fluidRow(
                     column(6, 
                            mod_click_tables_ui("click_tables_ui_1"),
+                           hr(),
                            mod_click_tables_ui("click_tables_ui_2")),
                     column(6,
                            mod_show_text_ui("show_text_ui_1"))
